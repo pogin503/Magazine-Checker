@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+{% include 'head.html' %}
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="row">
+            <p>更新日:{{ message }}</p>
+            <table class="table  table-bordered table-sm table-striped">
+                <thead>
+                <tr>
+                    <th class='bg-light'></th>
+                    <th class="text-center"><u>今号</u></th>
+                    <th class="text-center">次号</th>
+                </tr>
+                </thead>
+                {% for key, item in array %}
+                    <tr>
+                        {# タイトル #}
+                        <td class='bg-light'>
+                            <a href="{{ item.current['url'] }}" target='_blank'>{{ key }}</a>
+                            {# ステータスがエラーの場合 #}
+                            {% if item.status == 0 %}
+                                <span class='badge badge-pill badge-danger'>error</span>
+                            {% endif %}
+                        </td>
+                        {# 今号 #}
+                        {% if item.current['what_day'] == '(本日発売)' %}
+                            <td class="table-primary">
+                        {% else %}
+                            <td>
+                        {% endif %}
+                                {{ item.current['title'] }}</br>
+                                <small>{{ item.current['release_date'] }}</small></br>
+                                {{ item.current['what_day'] }}</br>
+                            </td>
+                        {# 次号 #}
+                        <td>
+                            {{ item.next['title'] }}</br>
+                            <small>{{ item.next['release_date'] }}</small></br>
+                            {{ item.next['what_day'] }}</br>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {#{{ dump(array) }}#}
+            <p>created by <a href="https://twitter.com/yamahare" target="_blank">@yamahare</a>
+        </div>
+    </div>
+</body>
+</html>
