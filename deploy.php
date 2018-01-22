@@ -31,7 +31,7 @@ set('writable_dirs', []);
 
 //host('project.com')
 //    ->set('deploy_path', '~/{{application}}');    
-host('ap_vultr')
+host('MC_WEB-AP')
     ->set('deploy_path', '/var/www/{{application}}');    
     
 

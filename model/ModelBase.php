@@ -54,6 +54,7 @@ class Magazine extends ModelBase{
         $today = new DateTime('now');
         $today_format = date_format($today, 'Y/m/d H:i:s');
         $curDate = date("Y-m-d", time());
+        $tomorrow = date('Y-m-d', strtotime('+1 day'));
 
         //クエリをキャッシュするためにViewをやめる
         $sql = "SELECT  MN.name
@@ -70,7 +71,7 @@ class Magazine extends ModelBase{
                                 INNER JOIN (SELECT   magazine_id
                                                     ,MIN(release_date) AS min_date
                                             FROM     titles_and_release_date
-                                            WHERE    release_date >= '$curDate'
+                                            WHERE    release_date >= '$tomorrow'
                                             GROUP BY magazine_id
                                           ) AS MIN_TABLE
                                       ON  TAR.magazine_id  = MIN_TABLE.magazine_id
