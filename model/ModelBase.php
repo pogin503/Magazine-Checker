@@ -16,6 +16,49 @@ class ModelBase
         $this->db = new PDO('mysql:host='.DB_SERVER.';dbname='.DB_NAME.';charset=utf8'
             ,DB_USER
             ,DB_PASSWD);
+        // 静的プレースホルダを用いるようにエミュレーションを無効化
+        $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    }
+
+    public function fetch($sql)
+    {
+        $stmt = $this->db->query($sql);
+        $stmt -> execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function fetchAll($sql, $type)
+    {
+        $stmt = $this->db->query($sql);
+        $stmt -> execute();
+        return $stmt->fetchAll($type);
+    }
+
+    public function prepare_fetchAll($sql, $bindval, $type)
+    {
+        $stmt = $this->db->prepare($sql);
+
+        foreach ($bindval as $val){
+            $stmt->bindValue($val["param"], $val["val"], $val["type"]);
+        }
+
+        $stmt -> execute();
+        return $stmt->fetchAll($type);
+    }
+
+    public function execute($sql)
+    {
+        return $this->db->exec($sql);
+    }
+
+    function begin() {
+        return $this->db->beginTransaction();
+    }
+    function commit() {
+        return $this->db->commit();
+    }
+    function rollback() {
+        return $this->db->rollBack();
     }
 }
 
@@ -24,6 +67,11 @@ class ModelBase
 //        雑誌モデル
 //---------------------------------------
 class Magazine extends ModelBase{
+
+    public function __construct() {
+        //親クラスのコンストラクタを呼び出す
+        parent::__construct();
+    }
 
     private $week_jp = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -34,27 +82,69 @@ class Magazine extends ModelBase{
         $sql = "SELECT max(updated_at) as max_date
                 FROM   magazines
                 ";
-        $stmt = $this->db->query($sql);
-        $stmt -> execute();
-        $result   = $stmt->fetch(PDO::FETCH_ASSOC);
-        $max_date = strtotime($result['max_date']);
+        $result = $this->fetch($sql);
+
+        $max_date  = strtotime($result['max_date']);
         $week      = date("w", $max_date);
         $time      = date("H:i:s", $max_date);
         $date      = date("Y年m月d日", $max_date);
         $update_date = $date."(".$this->week_jp[$week].") ".$time;
         return $update_date;
     }
+    //---------------------------------------
+    //        タグによる雑誌の絞込
+    //---------------------------------------
+    public function refine_by_tag($checked_lists)
+    {
+        //チェックボックスの値とタグIDのマッピング
+        define('TAG_MAP',   ['week' => 4,
+                             'month'=> 5,
+                             'boy'  => 1,
+                             'girl' => 3]);
 
+        //バインドする値の２次元配列生成
+        $index = 1;
+        foreach (TAG_MAP as $key => $val) {
+            if ( array_key_exists($key, $checked_lists) ) {
+                $bindval [] = ['param'=>$index++, 'val'=>$val, 'type'=>PDO::PARAM_INT];
+            }
+        }
+        //プリペアードステイトメント用？の生成
+        $questions = substr(str_repeat(',?', count($bindval)), 1);
+
+        $sql = "SELECT  MAG.id
+                FROM    magazines  MAG
+                        INNER JOIN magazines_tags  MTAGS
+                              ON   MAG.id = MTAGS.magazine_id
+                WHERE   MTAGS.tag_id  IN (${questions})
+                GROUP BY  MAG.id
+                ";
+
+        //戻り値は配列
+        $results = $this->prepare_fetchAll($sql, $bindval, PDO::FETCH_COLUMN);
+
+        return $results;
+    }
     //---------------------------------------
     //        雑誌のタイトルと日付を配列に格納
     //---------------------------------------
-    public function get_magazine_current_next(){
+    public function get_magazine_current_next($target_magazines){
+
+        $in = implode(',', $target_magazines);
+
+        //バインドする値の２次元配列生成
+        $index = 1;
+        foreach ($target_magazines as $val) {
+            $bindval [] = ['param'=>$index++, 'val'=>$val, 'type'=>PDO::PARAM_INT];
+        }
+        //プリペアードステイトメント用？の生成
+        $questions = substr(str_repeat(',?', count($bindval)), 1);
 
         $array = [];
         $today = new DateTime('now');
-        $today_format = date_format($today, 'Y/m/d H:i:s');
-        $curDate = date("Y-m-d", time());
-        $tomorrow = date('Y-m-d', strtotime('+1 day'));
+
+        $today_YMD = date("Y-m-d", time());
+        $tomorrow_YMD = date('Y-m-d', strtotime('+1 day'));
 
         //クエリをキャッシュするためにViewをやめる
         $sql = "SELECT  MN.name
@@ -71,7 +161,7 @@ class Magazine extends ModelBase{
                                 INNER JOIN (SELECT   magazine_id
                                                     ,MIN(release_date) AS min_date
                                             FROM     titles_and_release_date
-                                            WHERE    release_date >= '$tomorrow'
+                                            WHERE    release_date >= str_to_date('${tomorrow_YMD}','%Y-%m-%d')
                                             GROUP BY magazine_id
                                           ) AS MIN_TABLE
                                       ON  TAR.magazine_id  = MIN_TABLE.magazine_id
@@ -85,7 +175,7 @@ class Magazine extends ModelBase{
                               INNER JOIN (SELECT   magazine_id
                                                   ,MAX(release_date) AS max_date
                                           FROM     titles_and_release_date
-                                          WHERE    release_date <= '$curDate'
+                                          WHERE    release_date <= str_to_date('${today_YMD}','%Y-%m-%d')
                                           GROUP BY magazine_id
                                          ) AS MAX_TABLE
                                     ON  TAR.magazine_id  = MAX_TABLE.magazine_id
@@ -93,25 +183,26 @@ class Magazine extends ModelBase{
                        ) AS UNI
                        INNER JOIN magazines MN
                              ON   UNI.magazine_id = MN.id
+                WHERE  MN.id IN  (${questions})
                 ORDER BY  MN.name
                         ,UNI.release_date DESC
-                ";
-        $stmt = $this->db->query($sql);
-        $stmt -> execute();
+               ";
 
-        while($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        //戻り値は連想配列
+        $results = $this->prepare_fetchAll($sql, $bindval, PDO::FETCH_ASSOC);
+
+        foreach ($results as $magazine){
+
             //初期化
             $status = 1; //正常
             $message = "";
-            $release_day = new DateTime($result['release_date']);
+            $release_day = new DateTime($magazine['release_date']);
 
-            $date      = date("n/d", strtotime($result['release_date']));
-            $week      = date("w", strtotime($result['release_date']));
+            $date      = date("n/d", strtotime($magazine['release_date']));
+            $week      = date("w", strtotime($magazine['release_date']));
 
             $interval  = date_diff($today, $release_day);
             $diff_day  = (int)($interval->format('%a'));
-            $diff_hour = (int)($interval->format('%h'));
-            $diff_min  = (int)($interval->format('%i'));
             $diff_abs  = $interval->format('%r');
 
             // 日数のメッセージ設定
@@ -133,20 +224,20 @@ class Magazine extends ModelBase{
             }
 
             // ステータスの設定
-            if($result['status'] == 0){
+            if($magazine['status'] == 0){
                 $status = 0;
             }
 
-            $magazine = $result['name'];
-            $array[$magazine]['status']             = $status;
-            $array[$magazine][$gou]['title']        = $result['title'];
-            $array[$magazine][$gou]['url']          = $result['url'];
-            $array[$magazine][$gou]['release_date'] = "{$date}({$this->week_jp[$week]})発売";
-            $array[$magazine][$gou]['what_day']     = "({$message})";
+            $magazine_name = $magazine['name'];
+            $array[$magazine_name]['status']             = $status;
+            $array[$magazine_name][$gou]['title']        = $magazine['title'];
+            $array[$magazine_name][$gou]['url']          = $magazine['url'];
+            $array[$magazine_name][$gou]['release_date'] = "{$date}({$this->week_jp[$week]})発売";
+            $array[$magazine_name][$gou]['what_day']     = "({$message})";
         }
 
         return $array;
-        //var_dump($array);
+
     }
 
 }

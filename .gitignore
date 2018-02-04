@@ -10,5 +10,5 @@ composer.phar
 # -- 下記 magazine-checker オリジナル --
 /config/analyticstracking.php
 /config/DBConfig.php
-
+/.idea/
 

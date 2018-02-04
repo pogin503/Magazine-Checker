@@ -1,0 +1,36 @@
+<div class="card bg-light mb-3" style="max-width: 15rem;">
+    <div class="card-header">表示する雑誌を選択</div>
+    <div class="card-body">
+        {% if checked_lists['valid'] == 'NG' %}
+            <div class="alert alert-warning" role="alert">
+                １つ以上選んでね！
+            </div>
+        {% endif %}
+        <p class="card-title">興味のある雑誌を選んでね</p>
+
+        <form action="set_tags" method="post">
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="magazine_tag[]" id="timespanCB1" value="week" {{ checked_lists['week'] }}>
+                    <label class="form-check-label" for="timespanCB1">週刊誌</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="magazine_tag[]" id="timespanCB2" value="month" {{ checked_lists['month'] }}>
+                    <label class="form-check-label" for="timespanCB2">月刊誌</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="magazine_tag[]" id="divisionCB1" value="boy" {{ checked_lists['boy'] }}>
+                    <label class="form-check-label" for="divisionCB1">少年</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="magazine_tag[]" id="divisionCB2" value="girl" {{ checked_lists['girl'] }}>
+                    <label class="form-check-label" for="divisionCB2">少女</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">設定</button>
+        </form>
+
+    </div>
+</div>

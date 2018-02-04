@@ -31,7 +31,7 @@ set('writable_dirs', []);
 
 //host('project.com')
 //    ->set('deploy_path', '~/{{application}}');    
-host('MC_WEB-AP')
+host('magazine-checker')
     ->set('deploy_path', '/var/www/{{application}}');    
     
 
