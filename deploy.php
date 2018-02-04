@@ -16,7 +16,8 @@ set('git_tty', true);
 //set('shared_files', []);
 set('shared_files', [
   'config/analyticstracking.php',
-  'config/DBConfig.php'
+  'config/DBConfig.php',
+  'config/EnvConfig.php',
 ]);
 //set('shared_dirs', []);
 set('shared_dirs', [
