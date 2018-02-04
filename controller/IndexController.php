@@ -14,12 +14,10 @@ class IndexController{
             $debug       = true;
             $auto_reload = true;
             $cache       = false;
-            echo "dev";
         }elseif(SERVER_ENV == "staging"){
             $debug       = false;
             $auto_reload = false;
             $cache       = './twig_cache';
-            echo "aaaa";
         }
 
         //テンプレートファイルがあるディレクトリ
