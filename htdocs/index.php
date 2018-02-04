@@ -1,34 +1,25 @@
 <?php
-require_once('../config/EnvConfig.php');
-require_once('../vendor/autoload.php');
-//require_once('../model/Magazine.php');
-require_once('../controller/IndexController.php');
+require_once('../config/EnvConfig.php');  //環境設定
+require_once('../vendor/autoload.php'); //twigをどこからでも呼び出せるよう
 
-//先頭のスラッシュを削除
-$req_uri = ltrim($_SERVER['REQUEST_URI'], '/');
+// ライブラリの絶対パス
+define('LIB_PATH', realpath(dirname(__FILE__) . '/../library'));
+// モデルの絶対パス
+define('MODEL_PATH', realpath(dirname(__FILE__) . '/../model'));
+// コントローラの絶対パス
+define('CONTROLLER_PATH', realpath(dirname(__FILE__) . '/../controller'));
+// ライブラリとモデルのディレクトリをinclude_pathに追加
+$incPath = implode(PATH_SEPARATOR, array(LIB_PATH, MODEL_PATH, CONTROLLER_PATH));
+// ライブラリの絶対パスをinclude_pathに追加
+set_include_path(get_include_path() . PATH_SEPARATOR . $incPath);
 
-$params = array();
-if ('' != $req_uri) {
-    // パラメーターを"/"で分割
-    $params = explode('/', $req_uri);
+// クラスのオートロード（ライブラリ配下のクラスをいきなりnewで呼び出せる）
+function myClassLoader($className){
+    require_once ($className.'.php');
 }
-// １番目のパラメーターをコントローラーとして取得
-$controller = 'index';
-if (0 < count($params)) {
-    $controller = $params[0];
-}
+spl_autoload_register('myClassLoader');
 
-$indexController = new IndexController;
-switch ($controller) {
-    case 'set_tags':
-        $indexController->setTagAction();
-        break;
-    case 'index':
-        $indexController->indexAction();
-        break;
-    case 'about':
-        $indexController->showAboutAction();
-        break;
-    default:
-        echo 'NotFound';
-}
+$dispatch = new Dispatcher();
+$dispatch->dispatch();
+
+?>

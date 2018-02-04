@@ -1,6 +1,4 @@
 <?php
-require_once(dirname(__FILE__).'/../model/Magazine.php');
-
 define('TAGS', ['week','month','boy','girl']);
 
 class IndexController{
