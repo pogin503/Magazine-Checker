@@ -1,7 +1,6 @@
 <?php
 require_once('../vendor/autoload.php');
-require_once('../config/DBConfig.php');
-require_once('../model/ModelBase.php');
+require_once('../model/Magazine.php');
 
 define('TAGS', ['week','month','boy','girl']);
 
