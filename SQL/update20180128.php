@@ -24,7 +24,7 @@ try{
              created_at DATETIME,
              updated_at DATETIME,
              PRIMARY KEY (id)
-            )";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
     if ($model->execute($sql) !== false ){ print $sql."\n"; }
 
@@ -36,7 +36,7 @@ try{
              created_at DATETIME,
              updated_at DATETIME,
              PRIMARY KEY (id)
-           )";
+           ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
     if ($model->execute($sql) !== false ){ print $sql."\n"; }
 
