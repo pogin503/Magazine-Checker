@@ -34,7 +34,7 @@ class IndexController{
     /*==============================
     / トップページの表示
     ==============================*/
-    public function indexAction(){
+    public function index(){
         $template = $this->view->load('index.html.twig');
 
         $this->confirm_cookie($checked_lists);
@@ -58,7 +58,7 @@ class IndexController{
     /*==============================
     / タグをクッキーに保存する
     ==============================*/
-    public function setTagAction()
+    public function set_tag()
     {
         $true_case_flag = 0;   //正常ケースフラグ 初期値0
         setcookie('tags["all"]', "",time() - 60);   //チェックなしの状態解除
@@ -92,7 +92,7 @@ class IndexController{
     /*==============================
     / このサイトにについてのページを表示/
     ==============================*/
-    public function showAboutAction()
+    public function about()
     {
         $template = $this->view->load('about.html.twig');
 
