@@ -76,3 +76,4 @@ try{
     print $e;
     $model->rollback();
 }
+?>

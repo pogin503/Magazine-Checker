@@ -1,0 +1,40 @@
+/* 余白を消す */
+.svg {
+    display: none;
+}
+
+.mangalogo {
+    width:  30px;
+    height: 30px;
+}
+
+.manga0 {
+    fill:#f2af0d;
+    stroke:#000;
+    stroke-width:1.5px;
+}
+.manga1 {
+    fill:brown;
+    stroke:#000;
+    stroke-width:1.5px;
+}
+.manga3{
+    fill:#fff;
+    stroke:#000;
+    stroke-width:1.5px;
+}
+.manga4{
+    fill:none;
+    stroke:#000;
+    stroke-width:1.5px;
+}
+.manga5{
+    fill:none;
+    stroke:#000;
+    stroke-width:1.5px;
+}
+.manga6{
+    fill:#fff;
+    stroke:#000;
+    stroke-width:1.5px;
+}
