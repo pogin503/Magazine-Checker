@@ -42,6 +42,8 @@ task('chown_folder', function () {
     $chown = 'chown -R nginx:nginx twig_cache';
     run('cd ' . get('release_path') . '/htdocs/'. ' && '. $chown);
     writeln("変更完了");
+    writeln("<comment>php-fpmを再起動</comment>");
+    run('systemctl restart php72-php-fpm.service');
 });
 
 desc('Deploy your project');
