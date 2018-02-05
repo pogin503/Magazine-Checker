@@ -13,30 +13,36 @@ set('repository', 'git@github.com:yamanouehare/Magazine-Checker.git');
 set('git_tty', true); 
 
 // Shared files/dirs between deploys 
-//set('shared_files', []);
 set('shared_files', [
   'config/analyticstracking.php',
   'config/DBConfig.php',
   'config/EnvConfig.php',
 ]);
-//set('shared_dirs', []);
 set('shared_dirs', [
   'vendor'
 ]);
 
-// Writable dirs by web server 
-set('writable_dirs', []);
+//管理するリリース数
+set('keep_releases', 5);  
 
-
+// httpサーバのユーザ：nginx
+set('http_user','nginx');
 // Hosts
-
-//host('project.com')
-//    ->set('deploy_path', '~/{{application}}');    
 host('magazine-checker')
     ->set('deploy_path', '/var/www/{{application}}');    
     
 
 // Tasks
+desc('chown_folder');
+task('chown_folder', function () {
+    writeln("<comment>twig_cacheの所有者をnginxに変更</comment>");
+    $result = run('pwd');
+    writeln("初期パス: $result");
+    //htdocs配下に移動し所有者変更
+    $chown = 'chown -R nginx:nginx twig_cache';
+    run('cd ' . get('release_path') . '/htdocs/'. ' && '. $chown);
+    writeln("変更完了");
+});
 
 desc('Deploy your project');
 task('deploy', [
@@ -57,3 +63,6 @@ task('deploy', [
 
 // [Optional] If deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
+
+//デプロイ後に「chown_folder」実行
+after('success', 'chown_folder');
