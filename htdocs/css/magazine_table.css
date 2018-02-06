@@ -1,0 +1,17 @@
+td.magazine-title{
+    vertical-align: middle;
+    text-align: left;
+}
+th.magazine-title{
+    vertical-align: middle;
+    text-align: left;
+}
+th{
+    text-align: center;
+}
+td.gou{
+    text-align: center;
+}
+span.release_date{
+    color: #7d7d7d;
+}

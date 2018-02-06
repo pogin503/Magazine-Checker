@@ -15,7 +15,7 @@ class IndexController{
         }elseif(SERVER_ENV == "staging"){
             $debug       = false;
             $auto_reload = false;
-            $cache       = './twig_cache';
+            $cache       = '../view/twig_cache';
         }
 
         //テンプレートファイルがあるディレクトリ

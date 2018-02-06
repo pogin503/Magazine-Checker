@@ -149,11 +149,11 @@ class Magazine extends ModelBase{
                 $gou     = 'next';
             }
             elseif($diff_day == 0 && $diff_abs != '-'){
-                $message = "明日発売";
+                $message = "明日";
                 $gou     = 'next';
             }
             elseif($diff_day == 0 && $diff_abs == '-'){
-                $message = "本日発売";
+                $message = "今日";
                 $gou     = 'current';
             }
             elseif($diff_day > 0 && $diff_abs == '-'){
@@ -170,7 +170,7 @@ class Magazine extends ModelBase{
             $array[$magazine_name]['status']             = $status;
             $array[$magazine_name][$gou]['title']        = $magazine['title'];
             $array[$magazine_name][$gou]['url']          = $magazine['url'];
-            $array[$magazine_name][$gou]['release_date'] = "{$date}({$this->week_jp[$week]})発売";
+            $array[$magazine_name][$gou]['release_date'] = "{$date}({$this->week_jp[$week]})";
             $array[$magazine_name][$gou]['what_day']     = "({$message})";
         }
 

@@ -40,7 +40,7 @@ task('chown_folder', function () {
     writeln("初期パス: $result");
     //htdocs配下に移動し所有者変更
     $chown = 'chown -R nginx:nginx twig_cache';
-    run('cd ' . get('release_path') . '/htdocs/'. ' && '. $chown);
+    run('cd ' . get('release_path') . '/view/'. ' && '. $chown);
     writeln("変更完了");
     writeln("<comment>php-fpmを再起動</comment>");
     run('systemctl restart php72-php-fpm.service');
