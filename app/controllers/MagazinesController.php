@@ -34,7 +34,7 @@ class MagazinesController
     / トップページの表示
     ==============================*/
     public function index(){
-        $template = $this->view->load('magazines/index.twig');
+        $template = $this->view->load('./magazines/index.twig');
 
         $magazine = new Magazine;
         $magazine_list = $magazine->get_magazines();
