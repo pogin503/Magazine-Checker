@@ -3,11 +3,11 @@ require_once('../config/EnvConfig.php');  //環境設定
 require_once('../vendor/autoload.php'); //twigをどこからでも呼び出せるよう
 
 // ライブラリの絶対パス
-define('LIB_PATH', realpath(dirname(__FILE__) . '/../library'));
+define('LIB_PATH', realpath(dirname(__FILE__) . '/../lib'));
 // モデルの絶対パス
-define('MODEL_PATH', realpath(dirname(__FILE__) . '/../model'));
+define('MODEL_PATH', realpath(dirname(__FILE__) . '/../app/models'));
 // コントローラの絶対パス
-define('CONTROLLER_PATH', realpath(dirname(__FILE__) . '/../controller'));
+define('CONTROLLER_PATH', realpath(dirname(__FILE__) . '/../app/controllers'));
 // ライブラリとモデルのディレクトリをinclude_pathに追加
 $incPath = implode(PATH_SEPARATOR, array(LIB_PATH, MODEL_PATH, CONTROLLER_PATH));
 // ライブラリの絶対パスをinclude_pathに追加

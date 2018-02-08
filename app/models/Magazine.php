@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__).'/ModelBase.php');
+require_once(dirname(__FILE__) . '/ModelBase.php');
 
 //---------------------------------------
 //        雑誌モデル
@@ -13,6 +13,17 @@ class Magazine extends ModelBase{
 
     private $week_jp = ["日", "月", "火", "水", "木", "金", "土"];
 
+    //---------------------------------------
+    //        雑誌チェックの最終更新日を取得
+    //---------------------------------------
+    public function get_magazines(){
+        $sql = "SELECT name
+                FROM   magazines
+                WHERE  status = 1
+                ";
+        $result = $this->fetchAll($sql, PDO::FETCH_COLUMN);
+        return $result;
+    }
     //---------------------------------------
     //        雑誌チェックの最終更新日を取得
     //---------------------------------------

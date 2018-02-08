@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+{% include 'layouts/head.html' %}
+<body>
+{% include 'layouts/navbar.html' %}
+<div class="container">
+
+    <h3>対応中の雑誌</h3>
+    <table class="table">
+        {% for magazine in magazine_list %}
+        <tr>
+            {# タイトル #}
+            <td class='magazine-title'>
+                {{ magazine }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% include 'layouts/footer.html' %}
+
+</div>
+</body>
+</html>

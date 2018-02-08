@@ -1,6 +1,6 @@
 <?php
 require_once('../config/DBConfig.php');
-require_once('../model/ModelBase.php');
+require_once('../models/ModelBase.php');
 
 $model = new ModelBase;
 

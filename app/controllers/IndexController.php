@@ -15,11 +15,11 @@ class IndexController{
         }elseif(SERVER_ENV == "staging"){
             $debug       = false;
             $auto_reload = false;
-            $cache       = '../view/twig_cache';
+            $cache       = '../tmp/twig_cache';
         }
 
         //テンプレートファイルがあるディレクトリ
-        $loader     = new Twig_Loader_Filesystem('../view');
+        $loader     = new Twig_Loader_Filesystem('../app/views/');
 
         $this->view = new Twig_Environment($loader, array(
             'debug'       => $debug,
@@ -35,7 +35,7 @@ class IndexController{
     / トップページの表示
     ==============================*/
     public function index(){
-        $template = $this->view->load('index.html.twig');
+        $template = $this->view->load('./index/index.html.twig');
 
         $this->confirm_cookie($checked_lists);
 
@@ -94,7 +94,7 @@ class IndexController{
     ==============================*/
     public function about()
     {
-        $template = $this->view->load('about.html.twig');
+        $template = $this->view->load('index/about.html.twig');
 
         $data = array(
             'page' => 'about',
