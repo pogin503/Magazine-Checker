@@ -11,6 +11,6 @@ composer.phar
 /config/analyticstracking.php
 /config/DBConfig.php
 /.idea/
-/tmp/*
+/tmp/twig_cache/*
 # -- 下記は無視しない
 !/tmp/twig_cache/twigcache.txt

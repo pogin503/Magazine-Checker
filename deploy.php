@@ -28,7 +28,7 @@ set('keep_releases', 5);
 // httpサーバのユーザ：nginx
 set('http_user','nginx');
 // Hosts
-host('magazines-checker')
+host('magazine-checker')
     ->set('deploy_path', '/var/www/{{application}}');    
     
 
@@ -40,7 +40,7 @@ task('chown_folder', function () {
     writeln("初期パス: $result");
     //htdocs配下に移動し所有者変更
     $chown = 'chown -R nginx:nginx twig_cache';
-    run('cd ' . get('release_path') . '/views/'. ' && '. $chown);
+    run('cd ' . get('release_path') . '/tmp/'. ' && '. $chown);
     writeln("変更完了");
     writeln("<comment>php-fpmを再起動</comment>");
     run('systemctl restart php72-php-fpm.service');
