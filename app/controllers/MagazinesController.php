@@ -14,7 +14,7 @@ class MagazinesController
         }elseif(SERVER_ENV == "staging"){
             $debug       = false;
             $auto_reload = false;
-            $cache       = '../views/twig_cache';
+            $cache       = '../tmp/twig_cache';
         }
 
         //テンプレートファイルがあるディレクトリ

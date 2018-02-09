@@ -57,7 +57,7 @@ class Dispatcher{
                 }
             //その他の場合、二番目のパラメータをアクションにする
             }else{
-                //もし２番目のパラメータが存在するなら初期アクションをセット
+                //もし２番目のパラメータが存在するなら
                 if (1 < count($params)){
                     $get_action_name = $params[1];
                     if (in_array($get_action_name, $controllers[$key])) {
