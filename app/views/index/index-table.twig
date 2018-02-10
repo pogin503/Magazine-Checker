@@ -18,17 +18,13 @@
                 {% endif %}
             </td>
             {# 今号 #}
-            {% if item.current['what_day'] == '(今日)' %}
-                <td class="table-primary gou">
-            {% else %}
-                <td class="gou">
-            {% endif %}
-                    {{ item.current['title'] }}</br>
-                    <span class="release_date">
-                        {{ item.current['release_date'] }}</br>
-                        {{ item.current['what_day'] }}
-                    </span>
-                </td>
+            <td class="gou {% if item.current['what_day'] == '(今日)' %}table-primary{% endif %}">
+                {{ item.current['title'] }}</br>
+                <span class="release_date">
+                    {{ item.current['release_date'] }}</br>
+                    {{ item.current['what_day'] }}
+                </span>
+            </td>
             {# 次号 #}
             <td class="gou">
                 {{ item.next['title'] }}</br>

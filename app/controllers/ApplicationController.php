@@ -25,10 +25,13 @@ abstract class ApplicationController
             $this->initView();
 
             //viewの選定
-            $viewpath = sprintf('./%s/%s.twig'
+            $viewpath = sprintf('/%s/%s'
                 ,$this->controller
                 ,$this->action);
-            $template = $this->view->load($viewpath);
+            $template = $this->view->load(".".$viewpath.".twig");
+
+            $this->data['page'] = $viewpath;
+            $this->data['host'] = (empty($_SERVER["HTTPS"]) ? "http://" : "https://") . $_SERVER["HTTP_HOST"];
         }
 
         //アクション実行

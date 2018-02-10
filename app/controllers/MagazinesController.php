@@ -11,10 +11,7 @@ class MagazinesController extends ApplicationController
         $magazine = new Magazine;
         $magazine_list = $magazine->get_magazines();
 
-        $this->data = array(
-            'page'              => 'magazines',
-            'magazine_list'     => $magazine_list,
-        );
+        $this->data['magazine_list'] = $magazine_list;
 
     }
 
@@ -27,7 +24,6 @@ class MagazinesController extends ApplicationController
         $magazine_list = $magazine->get_magazines();
 
         $this->data = array(
-            'page'              => 'magazines',
             'magazine_list'     => $magazine_list,
         );
 

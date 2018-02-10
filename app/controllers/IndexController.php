@@ -17,20 +17,15 @@ class IndexController extends ApplicationController {
         $magazine_last_update  = $magazine->get_magazine_last_update();
         $magazine_current_next = $magazine->get_magazine_current_next($target_magazines);
 
-        $this->data = array(
-            'page'                     => 'index',
-            'magazine_last_update'     => $magazine_last_update,
-            'magazine_current_next'    => $magazine_current_next,
-            'checked_lists'            => $checked_lists,
-        );
+        $this->data = array_merge($this->data,[
+                        'magazine_last_update'     => $magazine_last_update,
+                        'magazine_current_next'    => $magazine_current_next,
+                        'checked_lists'            => $checked_lists,
+        ]);
 
     }
 
     public function notfound(){
-
-        $this->data = array(
-            'page'                     => 'notfound',
-        );
 
     }
 
@@ -73,10 +68,6 @@ class IndexController extends ApplicationController {
     ==============================*/
     public function about()
     {
-
-        $this->data = array(
-            'page' => 'about',
-        );
 
     }
 

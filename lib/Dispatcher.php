@@ -14,7 +14,7 @@ class Dispatcher{
 
         //定義済みコントローラ、アクション
         $controllers['index']     = ['index', 'set_tag', 'about'];
-        $controllers['magazines'] = ['index'];
+        $controllers['magazines'] = ['index','show'];
 
         //ドメイン直下の場合。indexController.index
         if (count($params) === 0){
