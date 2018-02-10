@@ -81,8 +81,9 @@ class Dispatcher{
             }else{
                 header("HTTP/1.0 404 Not Found");
                 // アクションメソッドを実行
-                $controllerInstance->setControllerAction('index','notfound');
-                $controllerInstance->run();
+                $indexController = new IndexController();
+                $indexController->setControllerAction('index','notfound');
+                $indexController->run();
             }
 
         }

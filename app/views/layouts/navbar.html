@@ -9,39 +9,27 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            {% if page == 'index' %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="/index">ホーム
+            <li class="nav-item {% if page == 'index' %}active{% endif %}">
+                <a class="nav-link" href="/index">ホーム
+                    {% if page == 'index' %}
                         <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/index">ホーム</a>
-                </li>
-            {% endif %}
-            {% if page == 'magazines' %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">雑誌
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            {% else %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="/magazines">雑誌</a>
-                </li>
-            {% endif %}
-            {% if page == 'about' %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">このサイトについて
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">このサイトについて</a>
-                </li>
-            {% endif %}
+                    {% endif %}
+                </a>
+            </li>
+            <li class="nav-item {% if page == 'magazines' %}active{% endif %}">
+                <a class="nav-link" href="/magazines">雑誌
+                    {% if page == 'magazines' %}
+                    <span class="sr-only">(current)</span>
+                    {% endif %}
+                </a>
+            </li>
+            <li class="nav-item {% if page == 'about' %}about{% endif %}">
+                <a class="nav-link" href="/about">このサイトについて
+                    {% if page == 'about' %}
+                    <span class="sr-only">(current)</span>
+                    {% endif %}
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

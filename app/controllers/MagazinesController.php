@@ -18,5 +18,19 @@ class MagazinesController extends ApplicationController
 
     }
 
+    /*==============================
+    / 雑誌の個別ページ
+    ==============================*/
+    public function show(){
+
+        $magazine = new Magazine;
+        $magazine_list = $magazine->get_magazines();
+
+        $this->data = array(
+            'page'              => 'magazines',
+            'magazine_list'     => $magazine_list,
+        );
+
+    }
 }
 ?>
