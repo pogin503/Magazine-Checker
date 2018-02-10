@@ -1,10 +1,10 @@
 <?php
-require_once(dirname(__FILE__) . '/ModelBase.php');
+require_once(dirname(__FILE__) . '/ApplicationRecord.php');
 
 //---------------------------------------
 //        雑誌モデル
 //---------------------------------------
-class Magazine extends ModelBase{
+class Magazine extends ApplicationRecord {
 
     public function __construct() {
         //親クラスのコンストラクタを呼び出す

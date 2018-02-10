@@ -19,7 +19,8 @@ class Dispatcher{
         //ドメイン直下の場合。indexController.index
         if (count($params) === 0){
             $indexController = new IndexController();
-            $indexController->index();
+            $indexController->setControllerAction('index','index');
+            $indexController->run();
         }
         //ドメイン以下の入力がある場合
         elseif (0 < count($params)) {
@@ -39,7 +40,7 @@ class Dispatcher{
 
             // パラメータより取得した値でコントローラー名作成
             $className = $controller_name . 'Controller';
-            $controllerIns = new $className;
+            $controllerInstance = new $className;
 
             /*---------------------------
              *   アクション名の決定
@@ -47,12 +48,12 @@ class Dispatcher{
             //コントローラ名
             $key = strtolower($controller_name);
             $action_name = null;
+            $notview = null;
             //コントローラがIndexの場合、一番目のパラメータをアクションにする
             if ($controller_name === 'Index') {
                 // １番目のパラメーターをアクションとして取得
                 $get_action_name = $params[0];
                 if (in_array($get_action_name, $controllers[$key])) {
-                    //先頭を大文字に変換
                     $action_name = $get_action_name;
                 }
             //その他の場合、二番目のパラメータをアクションにする
@@ -61,7 +62,6 @@ class Dispatcher{
                 if (1 < count($params)){
                     $get_action_name = $params[1];
                     if (in_array($get_action_name, $controllers[$key])) {
-                        //先頭を大文字に変換
                         $action_name = $get_action_name;
                     }
                 }else{
@@ -71,8 +71,12 @@ class Dispatcher{
 
             //存在するアクションなら実行
             if ($action_name){
+                if($action_name === "set_tag"){
+                    $notview = true;
+                }
                 // アクションメソッドを実行
-                $controllerIns->$action_name();
+                $controllerInstance->setControllerAction($key,$action_name);
+                $controllerInstance->run($notview);
             //ない場合no data found
             }else{
                 echo "no data found";

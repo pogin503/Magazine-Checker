@@ -1,41 +1,14 @@
 <?php
+require_once(dirname(__FILE__) . '/ApplicationController.php');
+
 define('TAGS', ['week','month','boy','girl']);
 
-class IndexController{
-
-    private $view;
-
-    public function __construct()
-    {
-        //環境毎に切り替え
-        if (SERVER_ENV == "development"){
-            $debug       = true;
-            $auto_reload = true;
-            $cache       = false;
-        }elseif(SERVER_ENV == "staging"){
-            $debug       = false;
-            $auto_reload = false;
-            $cache       = '../tmp/twig_cache';
-        }
-
-        //テンプレートファイルがあるディレクトリ
-        $loader     = new Twig_Loader_Filesystem('../app/views/');
-
-        $this->view = new Twig_Environment($loader, array(
-            'debug'       => $debug,
-            'auto_reload' => $auto_reload,
-            'cache'       => $cache,
-            'charset'     => 'utf-8',
-        ));
-        $this->view->addExtension(new Twig_Extension_Debug());
-
-    }
+class IndexController extends ApplicationController {
 
     /*==============================
     / トップページの表示
     ==============================*/
     public function index(){
-        $template = $this->view->load('./index/index.html.twig');
 
         $this->confirm_cookie($checked_lists);
 
@@ -44,14 +17,12 @@ class IndexController{
         $magazine_last_update  = $magazine->get_magazine_last_update();
         $magazine_current_next = $magazine->get_magazine_current_next($target_magazines);
 
-        $data = array(
+        $this->data = array(
             'page'                     => 'index',
             'magazine_last_update'     => $magazine_last_update,
             'magazine_current_next'    => $magazine_current_next,
             'checked_lists'            => $checked_lists,
         );
-
-        echo $template->render($data);
 
     }
 
@@ -94,13 +65,11 @@ class IndexController{
     ==============================*/
     public function about()
     {
-        $template = $this->view->load('index/about.html.twig');
 
-        $data = array(
+        $this->data = array(
             'page' => 'about',
         );
 
-        echo $template->render($data);
     }
 
     /*==============================
