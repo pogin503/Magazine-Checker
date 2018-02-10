@@ -3,22 +3,28 @@
 {% include 'layouts/head.html' %}
 <body>
 {% include 'layouts/navbar.html' %}
-<div class="container">
 
-    <h3>対応中の雑誌</h3>
-    <table class="table">
-        {% for magazine in magazine_list %}
-        <tr>
-            {# タイトル #}
-            <td class='magazine-title'>
-                {{ magazine }}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="container p-3">
 
-    {% include 'layouts/footer.html' %}
+    <div class="row px-3">
+        <h3>対応中の雑誌</h3>
+        <table class="table">
+            {% for magazine in magazine_list %}
+            <tr>
+                {# タイトル #}
+                <td class='magazine-title'>
+                    {{ magazine }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="row px-3">
+        {% include 'layouts/footer.html' %}
+    </div>
 
 </div>
+
 </body>
 </html>

@@ -3,10 +3,18 @@
 {% include 'layouts/head.html' %}
 <body>
     {% include 'layouts/navbar.html' %}
-    <div class="container">
-        {% include 'index/index-table.twig' %}
-        {% include 'index/checklist.twig' %}
-        {% include 'layouts/footer.html' %}
+    <div class="container p-3">
+
+        <div class="row px-3">
+            {% include 'index/index-table.twig' %}
+        </div>
+        <div class="row px-3">
+            {% include 'index/checklist.twig' %}
+        </div>
+        <div class="row px-3">
+            {% include 'layouts/footer.html' %}
+        </div>
+
     </div>
 </body>
 </html>
