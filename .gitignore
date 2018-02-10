@@ -12,5 +12,6 @@ composer.phar
 /config/DBConfig.php
 /.idea/
 /tmp/twig_cache/*
+/public/google*.html
 # -- 下記は無視しない
 !/tmp/twig_cache/twigcache.txt

@@ -14,7 +14,6 @@ set('git_tty', true);
 
 // Shared files/dirs between deploys 
 set('shared_files', [
-  'config/analyticstracking.php',
   'config/DBConfig.php',
   'config/EnvConfig.php',
 ]);

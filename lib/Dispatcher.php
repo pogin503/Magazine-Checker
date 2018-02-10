@@ -4,9 +4,9 @@ class Dispatcher{
 
     public function dispatch(){
 
-        //先頭のスラッシュを削除
-        $req_uri = ltrim($_SERVER['REQUEST_URI'], '/');
-        $params = array();
+        //先頭と末尾のスラッシュを削除
+        $req_uri = trim($_SERVER['REQUEST_URI'], '/');
+        $params = [];
         if ('' != $req_uri) {
             // パラメーターを"/"で分割
             $params = explode('/', $req_uri);
@@ -79,7 +79,10 @@ class Dispatcher{
                 $controllerInstance->run($notview);
             //ない場合no data found
             }else{
-                echo "no data found";
+                header("HTTP/1.0 404 Not Found");
+                // アクションメソッドを実行
+                $controllerInstance->setControllerAction('index','notfound');
+                $controllerInstance->run();
             }
 
         }
