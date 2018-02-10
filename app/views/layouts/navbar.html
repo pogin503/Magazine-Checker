@@ -15,36 +15,32 @@
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/magazines">雑誌</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">このサイトについて</a>
-                </li>
-            {% elseif page == 'magazines' %}
+            {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/index">ホーム</a>
                 </li>
+            {% endif %}
+            {% if page == 'magazines' %}
                 <li class="nav-item active">
                     <a class="nav-link" href="#">雑誌
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
+            {% else %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/magazines">雑誌</a>
+                </li>
+            {% endif %}
+            {% if page == 'about' %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">このサイトについて
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/about">このサイトについて</a>
                 </li>
-            {% elseif page == 'about' %}
-            <li class="nav-item">
-                <a class="nav-link" href="/index">ホーム</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/magazines">雑誌</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">このサイトについて
-                    <span class="sr-only">(current)</span>
-                </a>
-            </li>
             {% endif %}
         </ul>
     </div>
