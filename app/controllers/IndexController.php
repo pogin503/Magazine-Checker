@@ -26,6 +26,14 @@ class IndexController extends ApplicationController {
 
     }
 
+    public function notfound(){
+
+        $this->data = array(
+            'page'                     => 'notfound',
+        );
+
+    }
+
     /*==============================
     / タグをクッキーに保存する
     ==============================*/

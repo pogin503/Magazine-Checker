@@ -4,8 +4,8 @@ abstract class ApplicationController
 {
     protected $view;
     protected $data;
-    public    $controller;
-    public    $action;
+    public    $controller='index';
+    public    $action    ='index';
 
     /*==============================
     /  コントローラー名とアクション名を決定
