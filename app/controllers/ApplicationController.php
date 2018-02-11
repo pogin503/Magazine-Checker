@@ -18,28 +18,33 @@ abstract class ApplicationController
     /*==============================
     /  コントローラーのアクションを実行
     ==============================*/
-    public function run($notview=null){
+    public function run($param=null){
 
-        //viewが必用なアクションの場合
-        if(is_null($notview)){
+        //viewの選定
+        $viewpath = sprintf('/%s/%s'
+            ,$this->controller
+            ,$this->action);
+
+        //twigファイルの絶対パス
+        $view_absolute_path = realpath(dirname(__FILE__))."/../views".$viewpath.".twig";
+
+        //twigファイルがあるならtwig初期化
+        if (file_exists($view_absolute_path)){
+
             $this->initView();
-
-            //viewの選定
-            $viewpath = sprintf('/%s/%s'
-                ,$this->controller
-                ,$this->action);
-            $template = $this->view->load(".".$viewpath.".twig");
-
+            $template = $this->view->load("".$viewpath.".twig");
+            // /controller/action を設定
             $this->data['page'] = $viewpath;
+            // http://ドメイン名 を設定
             $this->data['host'] = (empty($_SERVER["HTTPS"]) ? "http://" : "https://") . $_SERVER["HTTP_HOST"];
         }
 
         //アクション実行
         $action_name = $this->action;
-        $this->$action_name();
+        $this->$action_name($param);
 
         //viewが必用なアクションの場合
-        if(is_null($notview)) {
+        if (file_exists($view_absolute_path)){
             echo $template->render($this->data);
         }
 

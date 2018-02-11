@@ -19,6 +19,7 @@ class ApplicationRecord
         $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
+    //fetch
     public function fetch($sql)
     {
         $stmt = $this->db->query($sql);
@@ -26,6 +27,7 @@ class ApplicationRecord
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    //fetchALL
     public function fetchAll($sql, $type)
     {
         $stmt = $this->db->query($sql);
@@ -33,6 +35,20 @@ class ApplicationRecord
         return $stmt->fetchAll($type);
     }
 
+    //プリペアードステイトメント使用(fetch版)
+    public function prepare_fetch($sql, $bindval, $type)
+    {
+        $stmt = $this->db->prepare($sql);
+
+        foreach ($bindval as $val){
+            $stmt->bindValue($val["param"], $val["val"], $val["type"]);
+        }
+
+        $stmt -> execute();
+        return $stmt->fetch($type);
+    }
+
+    //プリペアードステイトメント使用(fetchALL版)
     public function prepare_fetchAll($sql, $bindval, $type)
     {
         $stmt = $this->db->prepare($sql);

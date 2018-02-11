@@ -1,93 +1,46 @@
 <?php
 
-class Dispatcher{
+class Dispatcher
+{
 
-    public function dispatch(){
+    public function dispatch()
+    {
 
-        //先頭と末尾のスラッシュを削除
-        $req_uri = trim($_SERVER['REQUEST_URI'], '/');
-        $params = [];
-        if ('' != $req_uri) {
-            // パラメーターを"/"で分割
-            $params = explode('/', $req_uri);
+        //Routesで定義されたURIとControllerActionを取得
+        $req = new Request();
+        //HTTPのメソッド取得
+        $method = $req->get_request_method();
+        $uri = $req->get_request_uri();
+        //Routesで定義されたMETHODとURIとControllerActionの組み合わせを取得
+        $routes = new Routes();
+
+        foreach ($routes->patterns as $pattern) {
+
+            //URIの一致を確認
+            $result = preg_match("#^${pattern['uri']}$#", $uri, $matches);
+
+            //定義済みのHTTPメソッドとURIの組み合わせに一致する場合
+            if (($pattern['method'] == $method) &&
+                ($result === 1))
+            {
+                // #で分割
+                $array = explode('#', $pattern['controller_action']);
+                // すべて小文字にして先頭大文字+Controller
+                $controller_name = ucfirst(strtolower($array[0])) . 'Controller';
+                $controller = new $controller_name();
+                $controller->setControllerAction($array[0], $array[1]);
+                $controller->run($matches[1] ?? '');
+                exit;
+            }
         }
 
-        //定義済みコントローラ、アクション
-        $controllers['index']     = ['index', 'set_tag', 'about'];
-        $controllers['magazines'] = ['index','show'];
-
-        //ドメイン直下の場合。indexController.index
-        if (count($params) === 0){
-            $indexController = new IndexController();
-            $indexController->setControllerAction('index','index');
-            $indexController->run();
-        }
-        //ドメイン以下の入力がある場合
-        elseif (0 < count($params)) {
-            /*---------------------------
-             *   コントローラ名の決定
-             ---------------------------*/
-            // １番目のパラメーターをコントローラーとして取得
-            $get_controller_name = $params[0];
-
-            //定義済みコントローラと一致する場合
-            if (array_key_exists($get_controller_name, $controllers)) {
-                //先頭を大文字に変換
-                $controller_name = ucfirst(strtolower($get_controller_name));
-            }else{
-                $controller_name = 'Index';
-            }
-
-            // パラメータより取得した値でコントローラー名作成
-            $className = $controller_name . 'Controller';
-            $controllerInstance = new $className;
-
-            /*---------------------------
-             *   アクション名の決定
-             ---------------------------*/
-            //コントローラ名
-            $key = strtolower($controller_name);
-            $action_name = null;
-            $notview = null;
-            //コントローラがIndexの場合、一番目のパラメータをアクションにする
-            if ($controller_name === 'Index') {
-                // １番目のパラメーターをアクションとして取得
-                $get_action_name = $params[0];
-                if (in_array($get_action_name, $controllers[$key])) {
-                    $action_name = $get_action_name;
-                }
-            //その他の場合、二番目のパラメータをアクションにする
-            }else{
-                //もし２番目のパラメータが存在するなら
-                if (1 < count($params)){
-                    $get_action_name = $params[1];
-                    if (in_array($get_action_name, $controllers[$key])) {
-                        $action_name = $get_action_name;
-                    }
-                }else{
-                    $action_name = $controllers[$key][0];
-                }
-            }
-
-            //存在するアクションなら実行
-            if ($action_name){
-                if($action_name === "set_tag"){
-                    $notview = true;
-                }
-                // アクションメソッドを実行
-                $controllerInstance->setControllerAction($key,$action_name);
-                $controllerInstance->run($notview);
-            //ない場合no data found
-            }else{
-                header("HTTP/1.0 404 Not Found");
-                // アクションメソッドを実行
-                $indexController = new IndexController();
-                $indexController->setControllerAction('index','notfound');
-                $indexController->run();
-            }
-
-        }
-
+        //定義されたものと合致しなかった場合404
+        header("HTTP/1.0 404 Not Found");
+        // アクションメソッドを実行
+        $indexController = new IndexController();
+        $indexController->setControllerAction('index', 'notfound');
+        $indexController->run();
+        exit;
     }
 }
 ?>

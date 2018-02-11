@@ -14,7 +14,7 @@ class Magazine extends ApplicationRecord {
     private $week_jp = ["日", "月", "火", "水", "木", "金", "土"];
 
     //---------------------------------------
-    //        雑誌チェックの最終更新日を取得
+    //        雑誌リストを取得
     //---------------------------------------
     public function get_magazines(){
         $sql = "SELECT name
@@ -22,6 +22,22 @@ class Magazine extends ApplicationRecord {
                 WHERE  status = 1
                 ";
         $result = $this->fetchAll($sql, PDO::FETCH_COLUMN);
+        return $result;
+    }
+    //---------------------------------------
+    //        任意の雑誌情報を取得
+    //---------------------------------------
+    public function get_magazine_info($param){
+        $sql = "SELECT name
+                      ,url
+                FROM   magazines
+                WHERE  name   = ?
+                AND    status = 1
+                ";
+
+        //戻り値は配列
+        $bindval [] = ['param'=>1, 'val'=>$param, 'type'=>PDO::PARAM_STR];
+        $result = $this->prepare_fetch($sql, $bindval, PDO::FETCH_ASSOC);
         return $result;
     }
     //---------------------------------------
@@ -78,8 +94,6 @@ class Magazine extends ApplicationRecord {
     //        雑誌のタイトルと日付を配列に格納
     //---------------------------------------
     public function get_magazine_current_next($target_magazines){
-
-        $in = implode(',', $target_magazines);
 
         //バインドする値の２次元配列生成
         $index = 1;

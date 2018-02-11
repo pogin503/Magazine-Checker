@@ -16,7 +16,7 @@
                     {% endif %}
                 </a>
             </li>
-            <li class="nav-item {% if page == '/magazines/index' %}active{% endif %}">
+            <li class="nav-item {% if page matches '#^/magazines/.*$#' %}active{% endif %}">
                 <a class="nav-link" href="/magazines">雑誌
                     {% if page == 'magazines' %}
                     <span class="sr-only">(current)</span>

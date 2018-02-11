@@ -6,19 +6,8 @@
 
 <div class="container p-3">
 
-    <div class="row px-3">
-        <h3>対応中の雑誌</h3>
-        <table class="table">
-            {% for magazine in magazine_list %}
-            <tr>
-                {# タイトル #}
-                <td class='magazine-title'>
-                    {{ magazine }}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    <h3><a href="/magazines">雑誌</a> > {{ magazine_info.name }}</h3>
+    <p><a href="{{ magazine_info.url }}" target="_blank">公式サイト</a></p>
 
     <div class="row px-3">
         {% include 'layouts/footer.twig' %}

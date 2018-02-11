@@ -8,7 +8,7 @@ class MagazinesController extends ApplicationController
     ==============================*/
     public function index(){
 
-        $magazine = new Magazine;
+        $magazine      = new Magazine;
         $magazine_list = $magazine->get_magazines();
 
         $this->data['magazine_list'] = $magazine_list;
@@ -18,14 +18,22 @@ class MagazinesController extends ApplicationController
     /*==============================
     / 雑誌の個別ページ
     ==============================*/
-    public function show(){
+    public function show($param){
 
-        $magazine = new Magazine;
-        $magazine_list = $magazine->get_magazines();
+        $magazine      = new Magazine;
+        $magazine_info = $magazine->get_magazine_info($param);
 
-        $this->data = array(
-            'magazine_list'     => $magazine_list,
-        );
+        if ($magazine_info){
+            $this->data['magazine_info'] = $magazine_info;
+        }else{
+            //定義されたものと合致しなかった場合404
+            header("HTTP/1.0 404 Not Found");
+            // アクションメソッドを実行
+            $indexController = new IndexController();
+            $indexController->setControllerAction('index', 'notfound');
+            $indexController->run();
+            exit;
+        }
 
     }
 }

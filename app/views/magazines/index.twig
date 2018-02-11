@@ -7,13 +7,13 @@
 <div class="container p-3">
 
     <div class="row px-3">
-        <h3>対応中の雑誌</h3>
+        <h3>雑誌</h3>
         <table class="table">
             {% for magazine in magazine_list %}
             <tr>
                 {# タイトル #}
                 <td class='magazine-title'>
-                    {{ magazine }}
+                    <a href="magazines/{{ magazine }}">{{ magazine }}</a>
                 </td>
             </tr>
             {% endfor %}
