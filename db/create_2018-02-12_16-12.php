@@ -1,8 +1,8 @@
 <?php
-require_once('../config/DBConfig.php');
-require_once('../models/ApplicationRecord.php');
+require_once(dirname(__FILE__) . '/../app/models/ApplicationRecord.php');
+require_once(dirname(__FILE__) . '/../config/DBConfig.php');
 
-$model = new ModelBase;
+$model = new ApplicationRecord;
 
 $model->begin();
 try{
@@ -21,7 +21,7 @@ try{
               `name`       varchar(100) COLLATE utf8_bin NOT NULL,
               `url`        varchar(300) COLLATE utf8_bin NOT NULL,
               `status`     tinyint(1) NOT NULL,
-              `created_at` date NOT NULL,
+              `created_at` datetime NOT NULL,
               `updated_at` datetime NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";

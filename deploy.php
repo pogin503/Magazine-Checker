@@ -31,7 +31,7 @@ host('magazine-checker')
     ->set('deploy_path', '/var/www/{{application}}');    
     
 
-// Tasks
+// オリジナルタスク
 desc('chown_folder');
 task('chown_folder', function () {
     writeln("<comment>twig_cacheの所有者をnginxに変更</comment>");
@@ -45,6 +45,20 @@ task('chown_folder', function () {
     run('systemctl restart php72-php-fpm.service');
 });
 
+desc('upload_file');
+task('upload_file', function () {
+    writeln("<comment>db/data配下のファイルをアップロードします。</comment>");
+    $appFiles = [
+        'db/data',
+    ];
+    $releasePath = get('release_path');
+
+    foreach ($appFiles as $file) {
+        upload("./{$file}", "{$releasePath}/db/");
+    }
+})->desc('Upload static file');
+
+//標準タスク
 desc('Deploy your project');
 task('deploy', [
     'deploy:info',
@@ -57,6 +71,7 @@ task('deploy', [
     'deploy:vendors',
     'deploy:clear_paths',
     'deploy:symlink',
+    'upload',
     'deploy:unlock',
     'cleanup',
     'success'
