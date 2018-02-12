@@ -70,7 +70,8 @@ desc('migration');
 task('migration', function () {
     writeln("<comment>マイグレーションを実行します</comment>");
     $execphp = 'php72 migrate.php';
-    run('cd ' . get('release_path') . '/script/'. ' && '. $execphp);
+    $result = run('cd ' . get('release_path') . '/script/'. ' && '. $execphp);
+    writeln("結果: $result");
 })->desc('exec migration');
 
 //標準タスク
