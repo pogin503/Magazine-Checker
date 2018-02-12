@@ -28,10 +28,12 @@ set('keep_releases', 5);
 set('http_user','nginx');
 // Hosts
 host('magazine-checker')
-    ->set('deploy_path', '/var/www/{{application}}');    
-    
+    ->set('deploy_path', '/var/www/{{application}}');
 
-// オリジナルタスク
+
+/*-------------------------------
+ * 所有者変更タスク
+ -------------------------------*/
 desc('chown_folder');
 task('chown_folder', function () {
     writeln("<comment>twig_cacheの所有者をnginxに変更</comment>");
@@ -45,6 +47,9 @@ task('chown_folder', function () {
     run('systemctl restart php72-php-fpm.service');
 });
 
+/*-------------------------------
+ * データフォルダ配下を転送するタスク
+ -------------------------------*/
 desc('upload_file');
 task('upload_file', function () {
     writeln("<comment>db/data配下のファイルをアップロードします。</comment>");
@@ -57,6 +62,16 @@ task('upload_file', function () {
         upload("./{$file}", "{$releasePath}/db/");
     }
 })->desc('Upload static file');
+
+/*-------------------------------
+ * マイグレーションタスク
+ -------------------------------*/
+desc('migration');
+task('migration', function () {
+    writeln("<comment>マイグレーションを実行します</comment>");
+    $execphp = 'php72 migrate.php';
+    run('cd ' . get('release_path') . '/script/'. ' && '. $execphp);
+})->desc('exec migration');
 
 //標準タスク
 desc('Deploy your project');
@@ -71,7 +86,8 @@ task('deploy', [
     'deploy:vendors',
     'deploy:clear_paths',
     'deploy:symlink',
-    'upload',
+    'upload_file',      //アップロード
+    'migration',        //マイグレーション
     'deploy:unlock',
     'cleanup',
     'success'
