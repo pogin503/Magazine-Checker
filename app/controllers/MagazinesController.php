@@ -25,6 +25,10 @@ class MagazinesController extends ApplicationController
 
         if ($magazine_info){
             $this->data['magazine_info'] = $magazine_info;
+
+            $release_dates = $magazine->get_magazine_release_dates($magazine_info['id']);
+            $this->data['release_dates'] = $release_dates;
+
         }else{
             //定義されたものと合致しなかった場合404
             header("HTTP/1.0 404 Not Found");

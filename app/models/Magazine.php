@@ -20,19 +20,42 @@ class Magazine extends ApplicationRecord {
         $sql = "SELECT name
                 FROM   magazines
                 WHERE  status = 1
+                ORDER BY name
                 ";
         $result = $this->fetchAll($sql, PDO::FETCH_COLUMN);
+        return $result;
+    }
+    //---------------------------------------
+    //        任意の雑誌の号と発売日を取得
+    //---------------------------------------
+    public function get_magazine_release_dates($param){
+        $sql = "SELECT TR.title
+                      ,TR.release_date
+                FROM  titles_and_release_date  TR
+                WHERE  TR.magazine_id = ?
+                ORDER BY release_date DESC
+                ";
+        //戻り値は配列
+        $bindval [] = ['param'=>1, 'val'=>$param, 'type'=>PDO::PARAM_INT];
+        $result = $this->prepare_fetchAll($sql, $bindval, PDO::FETCH_ASSOC);
         return $result;
     }
     //---------------------------------------
     //        任意の雑誌情報を取得
     //---------------------------------------
     public function get_magazine_info($param){
-        $sql = "SELECT name
-                      ,url
-                FROM   magazines
-                WHERE  name   = ?
-                AND    status = 1
+        $sql = "SELECT M.id
+                      ,M.name
+                      ,M.url
+                      ,GROUP_CONCAT(T.name) AS tags
+                FROM  magazines M
+                     INNER JOIN magazines_tags MT
+                             ON M.id = MT.magazine_id
+                     INNER JOIN tags T
+                             ON T.id = MT.tag_id
+                WHERE  M.name   = ?
+                AND    M.status = 1
+                GROUP BY M.id
                 ";
 
         //戻り値は配列
