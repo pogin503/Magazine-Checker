@@ -6,7 +6,9 @@
 
 <div class="container p-3">
 
-    <h3><a href="/magazines">雑誌</a> > {{ magazine_info.name }}</h3>
+    {% include 'layouts/breadcrumb.twig' %}
+
+    <h4>{{ magazine_info.name }}</h4>
     <p><a href="{{ magazine_info.url }}" target="_blank">公式サイト</a></p>
 
     <div class="row px-3">
