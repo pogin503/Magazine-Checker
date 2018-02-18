@@ -23,3 +23,10 @@ span.release_date {
 .breadcrumb-item+.breadcrumb-item::before{
     content: ">";
 }
+
+a.navbar-brand {
+    font-family: 'Quicksand', sans-serif;
+}
+.brand-text{
+    font-family: 'Quicksand', sans-serif;
+}
