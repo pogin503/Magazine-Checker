@@ -1,5 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . '/../../config/DBConfig.php');
 
 class ApplicationRecord
 {

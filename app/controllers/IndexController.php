@@ -1,6 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . '/ApplicationController.php');
-
 define('TAGS', ['week','month','boy','girl']);
 
 class IndexController extends ApplicationController {
@@ -12,10 +10,10 @@ class IndexController extends ApplicationController {
 
         $this->confirm_cookie($checked_lists);
 
-        $magazine = new Magazine;
-        $target_magazines      = $magazine->refine_by_tag($checked_lists);
-        $magazine_last_update  = $magazine->get_magazine_last_update();
-        $magazine_current_next = $magazine->get_magazine_current_next($target_magazines);
+        $index = new Index;
+        $target_magazines      = $index->refine_by_tag($checked_lists);
+        $magazine_last_update  = $index->get_magazine_last_update();
+        $magazine_current_next = $index->get_magazine_current_next($target_magazines);
 
         $this->data = array_merge($this->data,[
                         'magazine_last_update'     => $magazine_last_update,
@@ -25,7 +23,18 @@ class IndexController extends ApplicationController {
 
     }
 
-    public function notfound(){
+    /*==============================
+    / ４０４not foundを表示する
+    ==============================*/
+    public function not_found(){
+        header("HTTP/1.0 404 Not Found");
+    }
+
+    /*==============================
+    / このサイトにについてのページを表示/
+    ==============================*/
+    public function about()
+    {
 
     }
 
@@ -61,14 +70,6 @@ class IndexController extends ApplicationController {
 
         header( "Location: ./index" );
         //$this->indexAction("set_tag");
-    }
-
-    /*==============================
-    / このサイトにについてのページを表示/
-    ==============================*/
-    public function about()
-    {
-
     }
 
     /*==============================

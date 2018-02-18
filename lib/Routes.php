@@ -21,9 +21,6 @@ class Routes{
 
         foreach ($a as $item) {
 
-            //もし両端の'/'を除いたとき値がない場合
-            //$uri = (trim($item[1], '/') !== '') ? trim($item[1], '/') : null;
-
             $hash [] = ['method'  =>  $item[0],
                         'uri'     =>  addslashes($item[1]), //エスケープする
                         'controller_action'=>$item[2],

@@ -1,7 +1,7 @@
 <?php
-
-require_once(dirname(__FILE__) . '/../app/models/ApplicationRecord.php');
-
+/*-------------------------------------
+ *     マイグレーションモデル
+ --------------------------------------*/
 class Migration extends ApplicationRecord {
 
     public function __construct() {
@@ -29,18 +29,18 @@ class Migration extends ApplicationRecord {
      --------------------------------*/
     public function create_migrations_table(){
         //migrationsテーブルがあったら削除
-        $sql = "DROP TABLE IF EXISTS `migrations`";
+        $sql = "DROP TABLE IF EXISTS migrations";
 
         if ($this->execute($sql) !== false ){ print $sql."\n"; }
 
         //migrationsテーブル作成
-        $sql = "CREATE TABLE `migrations` (
-              `id`         int(10) NOT NULL AUTO_INCREMENT,
-              `finished`   varchar(100) COLLATE utf8_bin NOT NULL,
-              `created_at` date NOT NULL,
-              `updated_at` datetime NOT NULL,
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
+        $sql = "CREATE TABLE migrations (
+                id         int(10)      NOT NULL AUTO_INCREMENT,
+                finished   varchar(100) NOT NULL,
+                created_at date         NOT NULL,
+                updated_at datetime     NOT NULL,
+                PRIMARY KEY (id)
+              ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
         if ($this->execute($sql) !== false ){ print $sql."\n"; }
     }
@@ -62,17 +62,10 @@ class Migration extends ApplicationRecord {
     --------------------------------*/
     public function insert_finished($file){
 
-        $sql = "INSERT INTO magazines.migrations (finished, created_at, updated_at)
+        $sql = "INSERT INTO migrations (finished, created_at, updated_at)
                 VALUES ('$file', now(), now())
                 ";
         if ($this->execute($sql) !== false ){ print $sql."\n"; }
-    }
-
-    /*-------------------------------
-    *  未実行ファイルを実行
-    --------------------------------*/
-    public function execute_migrate($file){
-        echo exec("php72 $file")."\n";
     }
 }
 ?>

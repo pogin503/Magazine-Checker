@@ -18,6 +18,10 @@ abstract class ApplicationController
     /*==============================
     /  コントローラーのアクションを実行
     ==============================*/
+    /**
+     * @param null $param
+     * @throws Exception
+     */
     public function run($param=null){
 
         //viewの選定
@@ -26,7 +30,7 @@ abstract class ApplicationController
             ,$this->action);
 
         //twigファイルの絶対パス
-        $view_absolute_path = realpath(dirname(__FILE__))."/../views".$viewpath.".twig";
+        $view_absolute_path = realpath(dirname(__FILE__))."/../app/views".$viewpath.".twig";
 
         //twigファイルがあるならtwig初期化
         if (file_exists($view_absolute_path)){
@@ -41,7 +45,11 @@ abstract class ApplicationController
 
         //アクション実行
         $action_name = $this->action;
-        $this->$action_name($param);
+        try{
+            $this->$action_name($param);
+        }catch(Exception $e){
+            throw $e;
+        }
 
         //viewが必用なアクションの場合
         if (file_exists($view_absolute_path)){
