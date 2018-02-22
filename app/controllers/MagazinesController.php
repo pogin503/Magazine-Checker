@@ -3,7 +3,7 @@
 class MagazinesController extends ApplicationController
 {
     /*==============================
-    / トップページの表示
+    / 雑誌のトップページ
     ==============================*/
     public function index(){
 

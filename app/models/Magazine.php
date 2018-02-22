@@ -15,7 +15,6 @@ class Magazine extends ApplicationRecord {
     public function get_magazines(){
         $sql = "SELECT name
                 FROM   magazines
-                WHERE  status = 1
                 ORDER BY name
                 ";
         $result = $this->fetchAll($sql, PDO::FETCH_COLUMN);
@@ -50,7 +49,6 @@ class Magazine extends ApplicationRecord {
                      INNER JOIN tags T
                              ON T.id = MT.tag_id
                 WHERE  M.name   = ?
-                AND    M.status = 1
                 GROUP BY M.id
                 ";
 
