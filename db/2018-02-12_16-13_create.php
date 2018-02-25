@@ -1,6 +1,5 @@
 <?php
-require_once(dirname(__FILE__) . '/../app/models/ApplicationRecord.php');
-require_once(dirname(__FILE__) . '/../config/DBConfig.php');
+require_once(dirname(__FILE__) . '/../lib/Requires.php');
 
 $model = new ApplicationRecord;
 

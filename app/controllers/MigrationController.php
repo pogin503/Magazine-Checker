@@ -30,6 +30,9 @@ class MigrationController extends ApplicationController
         asort($file_array);
         /*-------------------------------
          *  db配下のファイルで未実行ファイルを実行
+         *  実行順序
+         *  1.db配下のalter、create文
+         *  2.data配下のinsert、delete文
          --------------------------------*/
         foreach ($file_array as $file){
             if (array_search($file['name'], $finished_list) !== false){
@@ -38,7 +41,10 @@ class MigrationController extends ApplicationController
                 echo "---------------------------\n";
                 echo "未実行ファイル:".$file['name']."\n";
                 //未実行ファイル実行
-                echo exec("php72 {$file['path']}")."\n";
+                exec("php72 {$file['path']}", $output);
+                foreach($output as $a){
+                    echo $a."\n";
+                }
                 $migration->insert_finished($file['name']);
                 echo "---------------------------\n";
             }

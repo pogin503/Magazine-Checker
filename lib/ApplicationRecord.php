@@ -74,5 +74,15 @@ class ApplicationRecord
     function rollback() {
         return $this->db->rollBack();
     }
+
+    /*
+     * ログ出力用
+     */
+    function result_output($query){
+        static $count = 1;
+        echo $count.') '.$query.PHP_EOL;
+        $count += 1;
+    }
+
 }
 ?>
