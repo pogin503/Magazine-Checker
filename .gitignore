@@ -8,11 +8,11 @@ composer.phar
 # composer.lock
 
 # -- 下記 magazine-checker オリジナル --
-/config/analyticstracking.php
 /config/DBConfig.php
 /.idea/
 /tmp/twig_cache/*
-/public/google*.html
+/tmp/magazines_cache/*
 /db/data/*
 # -- 下記は無視しない
 !/tmp/twig_cache/twigcache.txt
+!/tmp/magazines_cache/magazines_cache.txt

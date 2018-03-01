@@ -60,6 +60,20 @@ class ApplicationRecord
         return $stmt->fetchAll($type);
     }
 
+    /*
+     * プリペアードステイトメント使用(exec版)
+     */
+    public function prepare_exec($sql, $bindval)
+    {
+        $stmt = $this->db->prepare($sql);
+
+        foreach ($bindval as $val){
+            $stmt->bindValue($val["param"], $val["val"], $val["type"]);
+        }
+
+        return $stmt -> execute();
+    }
+
     public function execute($sql)
     {
         return $this->db->exec($sql);
