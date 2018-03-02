@@ -1,4 +1,10 @@
 <?php
+namespace Models;
+
+use Libraries\ApplicationRecord;
+use \PDO;
+use \DateTime;
+
 //---------------------------------------
 //        雑誌モデル
 //---------------------------------------

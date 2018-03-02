@@ -1,5 +1,10 @@
 <?php
+namespace Controllers;
+
+use Libraries\ApplicationController;
+use Models\Scraper;
 use GuzzleHttp\Client;
+use \DateTime;
 
 class ScraperController extends ApplicationController
 {
@@ -54,7 +59,7 @@ class ScraperController extends ApplicationController
             //存在する場合
             if($html !== false){
 
-                $doc         = phpQuery::newDocumentHTML($html);
+                $doc         = \phpQuery::newDocumentHTML($html);
                 $selector    = $scrape['target'];
                 //取得した文字列の英数字を半角に変換
                 $target_text = mb_convert_kana($doc[$selector]->text(),'a');

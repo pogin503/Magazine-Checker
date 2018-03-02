@@ -1,4 +1,9 @@
 <?php
+namespace Controllers;
+
+use Libraries\ApplicationController;
+use Models\Index;
+
 define('TAGS', ['week','month','boy','girl']);
 
 class IndexController extends ApplicationController {

@@ -1,4 +1,10 @@
 <?php
+namespace Controllers;
+
+use Libraries\ApplicationController;
+use Models\Migration;
+use \RecursiveIteratorIterator;
+use \RecursiveDirectoryIterator;
 
 class MigrationController extends ApplicationController
 {

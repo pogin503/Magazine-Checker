@@ -1,4 +1,5 @@
 <?php
+namespace Libraries;
 
 class Routes{
     //定義済みコントローラ、アクション

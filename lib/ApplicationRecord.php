@@ -1,4 +1,6 @@
 <?php
+namespace Libraries;
+use \PDO;
 
 class ApplicationRecord
 {

@@ -1,4 +1,8 @@
 <?php
+namespace Controllers;
+
+use Libraries\ApplicationController;
+use Models\Magazine;
 
 class MagazinesController extends ApplicationController
 {

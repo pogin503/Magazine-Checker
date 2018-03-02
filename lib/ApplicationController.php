@@ -1,4 +1,6 @@
 <?php
+namespace Libraries;
+use \Exception;
 
 abstract class ApplicationController
 {
@@ -74,15 +76,15 @@ abstract class ApplicationController
         }
 
         //テンプレートファイルがあるディレクトリ
-        $loader     = new Twig_Loader_Filesystem('../app/views/');
+        $loader     = new \Twig_Loader_Filesystem('../app/views/');
 
-        $this->view = new Twig_Environment($loader, array(
+        $this->view = new \Twig_Environment($loader, array(
             'debug'       => $debug,
             'auto_reload' => $auto_reload,
             'cache'       => $cache,
             'charset'     => 'utf-8',
         ));
-        $this->view->addExtension(new Twig_Extension_Debug());
+        $this->view->addExtension(new \Twig_Extension_Debug());
     }
 }
 

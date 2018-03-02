@@ -1,4 +1,6 @@
 <?php
+namespace Libraries;
+use \Exception;
 
 class Dispatcher
 {
@@ -50,9 +52,10 @@ class Dispatcher
     public function run_controller($controller, $action, $param='')
     {
         // すべて小文字にして先頭大文字+Controller
-        $controller_name = ucfirst(strtolower($controller)) . 'Controller';
+        //　名前空間を先頭につける
+        $controller_name = 'Controllers\\' . ucfirst(strtolower($controller)) . 'Controller';
 
-        $controller_instance = new $controller_name();
+        $controller_instance = new $controller_name;
         $controller_instance->setControllerAction($controller, $action);
         $controller_instance->run($param);
     }

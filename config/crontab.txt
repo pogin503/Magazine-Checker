@@ -1,0 +1,3 @@
+CRON_TZ=Asia/Tokyo
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+1 0 * * * php72 /var/www/Magazine_Checker/current/script/scrape.php

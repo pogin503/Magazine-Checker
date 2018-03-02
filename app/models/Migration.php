@@ -1,4 +1,8 @@
 <?php
+namespace Models;
+
+use Libraries\ApplicationRecord;
+use \PDO;
 /*-------------------------------------
  *     マイグレーションモデル
  --------------------------------------*/
