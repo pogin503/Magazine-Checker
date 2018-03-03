@@ -17,11 +17,10 @@ class IndexController extends ApplicationController {
 
         $index = new Index;
         $target_magazines      = $index->refine_by_tag($checked_lists);
-        $magazine_last_update  = $index->get_magazine_last_update();
         $magazine_current_next = $index->get_magazine_current_next($target_magazines);
 
         $this->data = array_merge($this->data,[
-                        'magazine_last_update'     => $magazine_last_update,
+                        'magazine_last_update'     => $this->get_scraping_date(),
                         'magazine_current_next'    => $magazine_current_next,
                         'checked_lists'            => $checked_lists,
         ]);
@@ -106,6 +105,21 @@ class IndexController extends ApplicationController {
             foreach (TAGS as $key) {
                 $checked_lists[$key] = 'checked="checked"';
             }
+        }
+    }
+
+    /*
+     * スクレイピング実行日付を取得
+     */
+    private function get_scraping_date(){
+        $week_jp = ["日", "月", "火", "水", "木", "金", "土"];
+        $filename = realpath(dirname(__FILE__).'/../../tmp/magazines_cache/scraping_date.txt');
+        if (file_exists($filename)) {
+            $date      = filemtime($filename);
+            $week      = date("w", $date);
+            $time      = date("H:i:s", $date);
+            $date      = date("Y年m月d日", $date);
+            return '更新日:'.$date."(".$week_jp[$week].") ".$time;
         }
     }
 

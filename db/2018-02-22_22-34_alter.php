@@ -1,5 +1,7 @@
 <?php
-require_once(dirname(__FILE__) . '/../lib/Requires.php');
+require_once(dirname(__FILE__). '/../vendor/autoload.php');
+
+use Libraries\ApplicationRecord;
 
 /*====================================================
  *  カラム変更

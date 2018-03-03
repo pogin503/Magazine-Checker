@@ -15,6 +15,13 @@ class ScraperController extends ApplicationController
         $this->save_path = realpath(dirname(__FILE__).'/../../tmp/magazines_cache/');
     }
 
+    /*
+     *  スクレイピング実行日付をファイルに出力
+     */
+    public function save_execute_time(){
+        file_put_contents($this->save_path.'/scraping_date.txt',
+                          date('Y年m月d日 G時i分s秒'));
+    }
     /*==============================
     / htmlをGETして保存
     ==============================*/

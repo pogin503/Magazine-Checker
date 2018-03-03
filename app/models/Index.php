@@ -18,22 +18,6 @@ class Index extends ApplicationRecord {
     private $week_jp = ["日", "月", "火", "水", "木", "金", "土"];
 
     //---------------------------------------
-    //        雑誌チェックの最終更新日を取得
-    //---------------------------------------
-    public function get_magazine_last_update(){
-        $sql = "SELECT max(updated_at) as max_date
-                FROM   magazines
-                ";
-        $result = $this->fetch($sql);
-
-        $max_date  = strtotime($result['max_date']);
-        $week      = date("w", $max_date);
-        $time      = date("H:i:s", $max_date);
-        $date      = date("Y年m月d日", $max_date);
-        $update_date = $date."(".$this->week_jp[$week].") ".$time;
-        return $update_date;
-    }
-    //---------------------------------------
     //        タグによる雑誌の絞込
     //---------------------------------------
     public function refine_by_tag($checked_lists)

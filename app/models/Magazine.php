@@ -19,6 +19,7 @@ class Magazine extends ApplicationRecord {
     public function get_magazines(){
         $sql = "SELECT name
                 FROM   magazines
+                WHERE  status = 1
                 ORDER BY name
                 ";
         $result = $this->fetchAll($sql, PDO::FETCH_COLUMN);

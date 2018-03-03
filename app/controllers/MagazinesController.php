@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Libraries\ApplicationController;
 use Models\Magazine;
+use \Exception;
 
 class MagazinesController extends ApplicationController
 {
